@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'mysql_service.dart';
+import 'api_service.dart';
 
 void main() {
   runApp(const MyApp());
@@ -7,115 +9,268 @@ void main() {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Education Robot MySQL Demo',
       theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // TRY THIS: Try running your application with "flutter run". You'll see
-        // the application has a purple toolbar. Then, without quitting the app,
-        // try changing the seedColor in the colorScheme below to Colors.green
-        // and then invoke "hot reload" (save your changes or press the "hot
-        // reload" button in a Flutter-supported IDE, or press "r" if you used
-        // the command line to start the app).
-        //
-        // Notice that the counter didn't reset back to zero; the application
-        // state is not lost during the reload. To reset the state, use hot
-        // restart instead.
-        //
-        // This works for code too, not just values: Most code changes can be
-        // tested with just a hot reload.
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.teal),
+        useMaterial3: true,
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      home: const DatabaseDemoHome(),
     );
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
-
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
-
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
-  // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
-
-  final String title;
+class DatabaseDemoHome extends StatefulWidget {
+  const DatabaseDemoHome({super.key});
 
   @override
-  State<MyHomePage> createState() => _MyHomePageState();
+  State<DatabaseDemoHome> createState() => _DatabaseDemoHomeState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
+class _DatabaseDemoHomeState extends State<DatabaseDemoHome> {
+  bool _useDirectConnection = true; // Toggle between direct MySQL and REST API
+  List<Map<String, dynamic>> _items = [];
+  bool _isLoading = false;
+  String _statusMessage = 'Ready. Please configure your settings in service files.';
 
-  void _incrementCounter() {
+  final TextEditingController _titleController = TextEditingController();
+  final TextEditingController _descController = TextEditingController();
+
+  Future<void> _fetchData() async {
     setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      _counter++;
+      _isLoading = true;
+      _statusMessage = 'Fetching data...';
     });
+
+    try {
+      List<Map<String, dynamic>> data;
+      if (_useDirectConnection) {
+        data = await MySqlService.fetchItems();
+      } else {
+        data = await ApiService.fetchItems();
+      }
+
+      setState(() {
+        _items = data;
+        _statusMessage = 'Data loaded successfully! (${_items.length} items found)';
+      });
+    } catch (e) {
+      setState(() {
+        _items = [];
+        _statusMessage = 'Error loading data. Make sure credentials/URLs are updated.\nDetails: $e';
+      });
+    } finally {
+      setState(() {
+        _isLoading = false;
+      });
+    }
+  }
+
+  Future<void> _addData() async {
+    final title = _titleController.text.trim();
+    final desc = _descController.text.trim();
+
+    if (title.isEmpty || desc.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Please fill all fields')),
+      );
+      return;
+    }
+
+    setState(() {
+      _isLoading = true;
+      _statusMessage = 'Adding item...';
+    });
+
+    try {
+      if (_useDirectConnection) {
+        await MySqlService.insertItem(title, desc);
+      } else {
+        await ApiService.insertItem(title, desc);
+      }
+
+      _titleController.clear();
+      _descController.clear();
+      setState(() {
+        _statusMessage = 'Item added successfully!';
+      });
+      _fetchData(); // Refresh list after adding
+    } catch (e) {
+      setState(() {
+        _isLoading = false;
+        _statusMessage = 'Error adding item.\nDetails: $e';
+      });
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
     return Scaffold(
       appBar: AppBar(
-        // TRY THIS: Try changing the color here to a specific color (to
-        // Colors.amber, perhaps?) and trigger a hot reload to see the AppBar
-        // change color while the other colors stay the same.
+        title: const Text('MySQL & API Integration Demo'),
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
-        title: Text(widget.title),
       ),
-      body: Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
+      body: SingleChildScrollView(
+        padding: const EdgeInsets.all(16.0),
         child: Column(
-          // Column is also a layout widget. It takes a list of children and
-          // arranges them vertically. By default, it sizes itself to fit its
-          // children horizontally, and tries to be as tall as its parent.
-          //
-          // Column has various properties to control how it sizes itself and
-          // how it positions its children. Here we use mainAxisAlignment to
-          // center the children vertically; the main axis here is the vertical
-          // axis because Columns are vertical (the cross axis would be
-          // horizontal).
-          //
-          // TRY THIS: Invoke "debug painting" (choose the "Toggle Debug Paint"
-          // action in the IDE, or press "p" in the console), to see the
-          // wireframe for each widget.
-          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            const Text('You have pushed the button this many times:'),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headlineMedium,
+            // Switch Connection Method
+            Card(
+              elevation: 2,
+              child: Padding(
+                padding: const EdgeInsets.all(12.0),
+                child: Column(
+                  children: [
+                    const Text(
+                      'Choose Connection Method',
+                      style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                    ),
+                    const SizedBox(height: 8),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        const Text('REST API (Secure)'),
+                        Switch(
+                          value: _useDirectConnection,
+                          onChanged: (val) {
+                            setState(() {
+                              _useDirectConnection = val;
+                              _items = [];
+                              _statusMessage = 'Switched connection method. Load data to start.';
+                            });
+                          },
+                        ),
+                        const Text('Direct MySQL (Prototyping)'),
+                      ],
+                    ),
+                    const SizedBox(height: 8),
+                    Text(
+                      _useDirectConnection
+                          ? '⚠️ Direct Connection communicates with port 3306. Note: Not secure for production builds.'
+                          : '✅ REST API makes secure HTTPS calls to a web server middleware. Best for production apps.',
+                      style: const TextStyle(fontSize: 12, fontStyle: FontStyle.italic),
+                      textAlign: TextAlign.center,
+                    ),
+                  ],
+                ),
+              ),
             ),
+            const SizedBox(height: 16),
+
+            // Form to Add Data
+            Card(
+              elevation: 2,
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    const Text(
+                      'Add New Item',
+                      style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                    ),
+                    const SizedBox(height: 12),
+                    TextField(
+                      controller: _titleController,
+                      decoration: const InputDecoration(
+                        labelText: 'Title / Name',
+                        border: OutlineInputBorder(),
+                      ),
+                    ),
+                    const SizedBox(height: 12),
+                    TextField(
+                      controller: _descController,
+                      decoration: const InputDecoration(
+                        labelText: 'Description',
+                        border: OutlineInputBorder(),
+                      ),
+                    ),
+                    const SizedBox(height: 12),
+                    ElevatedButton.icon(
+                      onPressed: _isLoading ? null : _addData,
+                      icon: const Icon(Icons.add),
+                      label: const Text('Insert to MySQL Database'),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            const SizedBox(height: 16),
+
+            // Fetch and Status Controls
+            Row(
+              children: [
+                Expanded(
+                  child: ElevatedButton.icon(
+                    onPressed: _isLoading ? null : _fetchData,
+                    icon: const Icon(Icons.refresh),
+                    label: const Text('Fetch Data'),
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 16),
+
+            // Status message
+            Container(
+              padding: const EdgeInsets.all(12),
+              decoration: BoxDecoration(
+                color: Colors.grey[200],
+                borderRadius: BorderRadius.circular(8),
+                border: Border.all(color: Colors.grey[400]!),
+              ),
+              child: Text(
+                'Status:\n$_statusMessage',
+                style: const TextStyle(fontFamily: 'monospace', fontSize: 13),
+              ),
+            ),
+            const SizedBox(height: 16),
+
+            // List of retrieved items
+            const Text(
+              'Items in MySQL Database:',
+              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(height: 8),
+
+            if (_isLoading)
+              const Center(
+                child: Padding(
+                  padding: EdgeInsets.all(16.0),
+                  child: CircularProgressIndicator(),
+                ),
+              )
+            else if (_items.isEmpty)
+              const Card(
+                child: Padding(
+                  padding: EdgeInsets.all(16.0),
+                  child: Text(
+                    'No items loaded. Update connection settings in mysql_service.dart or api_service.dart first, then click "Fetch Data".',
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+              )
+            else
+              ListView.builder(
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                itemCount: _items.length,
+                itemBuilder: (ctx, index) {
+                  final item = _items[index];
+                  return Card(
+                    child: ListTile(
+                      leading: CircleAvatar(child: Text('${item['id'] ?? index + 1}')),
+                      title: Text(item['title'] ?? 'No Title'),
+                      subtitle: Text(item['description'] ?? 'No Description'),
+                    ),
+                  );
+                },
+              ),
           ],
         ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
       ),
     );
   }
