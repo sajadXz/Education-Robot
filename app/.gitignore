@@ -43,12 +43,3 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
-
-
-# skills 
-blackbox/skills/ai--cognitive-logic
-blackbox/skills/ai-database-rag
-blackbox/skills/application-security
-blackbox/skills/backend-development
-blackbox/skills/debugging--root-cause-analysis
-blackbox/skills/frontend-engineering
