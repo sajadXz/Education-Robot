@@ -1,6 +1,6 @@
 {
-    "name": "robotico",
-    "short_name": "robotico",
+    "name": "robot_app",
+    "short_name": "robot_app",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",

@@ -87,7 +87,7 @@ class _ChildInformationInterfaceState extends State<ChildInformationInterface> {
             _label(AppText.get("gender")),
 
             DropdownButtonFormField<String>(
-              initialValue: gender,
+              value: gender,
               decoration: _inputDecoration(),
               items: [
                 DropdownMenuItem(

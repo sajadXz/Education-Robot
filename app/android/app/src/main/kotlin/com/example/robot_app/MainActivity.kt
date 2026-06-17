@@ -1,4 +1,4 @@
-package com.example.robotico
+package com.example.robot_app
 
 import io.flutter.embedding.android.FlutterActivity
 

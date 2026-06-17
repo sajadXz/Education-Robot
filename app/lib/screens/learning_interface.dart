@@ -40,28 +40,38 @@ class _LearningInterfaceState extends State<LearningInterface> {
 
     Navigator.pushReplacement(
       context,
+
       MaterialPageRoute(builder: (context) => page),
     );
   }
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+
     return Scaffold(
-      backgroundColor: const Color(0xFFF5F9FC),
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
 
       appBar: AppBar(centerTitle: true, title: Text(AppText.get("learning"))),
 
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(18),
+
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
+
           children: [
             Container(
               padding: const EdgeInsets.all(18),
+
               decoration: BoxDecoration(
-                color: const Color(0xFFBFEFFF),
+                color: isDark
+                    ? Theme.of(context).cardColor
+                    : const Color(0xFFBFEFFF),
+
                 borderRadius: BorderRadius.circular(25),
               ),
+
               child: Column(
                 children: [
                   Image.asset("assets/images/robot_lesson.png", height: 130),
@@ -70,12 +80,13 @@ class _LearningInterfaceState extends State<LearningInterface> {
 
                   Text(
                     AppText.get("spaceExplorerMission"),
+
                     style: const TextStyle(
                       fontSize: 22,
+
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-
                   const SizedBox(height: 10),
 
                   const Text("75% Complete"),
@@ -84,6 +95,7 @@ class _LearningInterfaceState extends State<LearningInterface> {
 
                   ClipRRect(
                     borderRadius: BorderRadius.circular(20),
+
                     child: const LinearProgressIndicator(
                       value: 0.75,
                       minHeight: 12,
@@ -94,15 +106,18 @@ class _LearningInterfaceState extends State<LearningInterface> {
 
                   ElevatedButton(
                     onPressed: () {},
+
                     child: Text(AppText.get("resumeLesson")),
                   ),
                 ],
               ),
             ),
+
             const SizedBox(height: 25),
 
             Text(
               AppText.get("categories"),
+
               style: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
             ),
 
@@ -110,6 +125,7 @@ class _LearningInterfaceState extends State<LearningInterface> {
 
             SingleChildScrollView(
               scrollDirection: Axis.horizontal,
+
               child: Row(
                 children: [
                   _categoryButton(AppText.get("allLessons"), 0),
@@ -120,30 +136,38 @@ class _LearningInterfaceState extends State<LearningInterface> {
                 ],
               ),
             ),
+
             const SizedBox(height: 25),
 
             Text(
               AppText.get("newChallenges"),
+
               style: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
             ),
 
             const SizedBox(height: 15),
 
             _lessonCard(
-              image: "assets/images/counting_catch.png",
+              image: "ImagesRobot/mMath.png",
+
               title: AppText.get("countingCatch"),
+
               subtitle: AppText.get("math"),
             ),
 
             _lessonCard(
-              image: "assets/images/puzzle_paths.png",
+              image: "ImagesRobot/puzzle_paths.png",
+
               title: AppText.get("puzzlePaths"),
+
               subtitle: AppText.get("logic"),
             ),
 
             _lessonCard(
-              image: "assets/images/story_time.png",
+              image: "ImagesRobot/story_time.png",
+
               title: AppText.get("storyTime"),
+
               subtitle: AppText.get("reading"),
             ),
 
@@ -163,12 +187,20 @@ class _LearningInterfaceState extends State<LearningInterface> {
 
     return Padding(
       padding: const EdgeInsets.only(right: 10),
+
       child: ElevatedButton(
         onPressed: () {
           setState(() {
             selectedCategory = index;
           });
         },
+
+        style: ElevatedButton.styleFrom(
+          backgroundColor: selected
+              ? Theme.of(context).colorScheme.primary
+              : null,
+        ),
+
         child: Text(title),
       ),
     );
@@ -180,11 +212,17 @@ class _LearningInterfaceState extends State<LearningInterface> {
     required String subtitle,
   }) {
     return Card(
+      color: Theme.of(context).cardColor,
+
       margin: const EdgeInsets.only(bottom: 15),
+
       child: ListTile(
         leading: Image.asset(image, width: 60, height: 60),
+
         title: Text(title),
+
         subtitle: Text(subtitle),
+
         trailing: const Icon(Icons.arrow_forward_ios),
       ),
     );
@@ -192,9 +230,13 @@ class _LearningInterfaceState extends State<LearningInterface> {
 
   Widget _lockedLessonCard() {
     return Card(
+      color: Theme.of(context).cardColor,
+
       child: ListTile(
         leading: const Icon(Icons.lock, size: 40, color: Colors.grey),
+
         title: Text(AppText.get("blockBuilder")),
+
         subtitle: Text(AppText.get("completeMoreLessons")),
       ),
     );

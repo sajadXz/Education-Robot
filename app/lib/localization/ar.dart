@@ -135,4 +135,66 @@ const Map<String, String> ar = {
   "weeklyProgressReport": "تقرير التقدم الأسبوعي",
 
   "weeklyProgressDesc": "شاهد الإنجازات والتقدم التعليمي.",
+  "settings": "الإعدادات",
+  "language": "اللغة",
+  "theme": "المظهر",
+  "darkMode": "الوضع الداكن",
+  "lightMode": "الوضع الفاتح",
+  "editChildInfo": "تعديل معلومات الطفل",
+
+  "editChildInfoDesc": "تحديث معلومات الطفل الشخصية",
+
+  "editParentInfo": "تعديل معلومات الوالدين",
+
+  "editParentInfoDesc": "تحديث معلومات الوالدين",
+
+  "robotSettings": "إعدادات الروبوت",
+
+  "robotSettingsDesc": "الصوت والحركة والسطوع والاتصال",
+
+  "logout": "تسجيل خروج",
+
+  "logoutDesc": "تسجيل الخروج من الحساب الحالي",
+
+  "switchAccount": "تسجيل حساب آخر",
+
+  "switchAccountDesc": "إضافة أو التبديل لحساب آخر",
+
+  "robotEvaluation": "تقييم أداء الروبوت",
+
+  "robotEvaluationDesc": "قيم أداء الروبوت",
+
+  "help": "مساعدة",
+
+  "helpDesc": "الأسئلة الشائعة والدعم",
+
+  "robotGuide": "شرح مبسط عن الروبوت",
+
+  "robotGuideDesc": "تعرف على كيفية عمل الروبوت",
+  "robotDescription": "هذا الروبوت مصمم لمساعدة الأطفال على التعلم والنمو.",
+
+  "version": "الإصدار",
+
+  "saveChanges": "حفظ التعديلات",
+  "changePhoto": "تغيير الصورة",
+  "additionalNotes": "ملاحظات إضافية",
+  "wakeTime": "وقت الاستيقاظ",
+  "schoolStage": "المرحلة الدراسية",
+
+  "fatherName": "اسم الأب",
+  "motherName": "اسم الأم",
+
+  "hasJob": "يمتلك وظيفة",
+  "jobType": "نوع العمل",
+
+  "fatherPhone": "رقم الأب",
+  "motherPhone": "رقم الأم",
+
+  "fatherWorkHours": "ساعات عمل الأب",
+  "motherWorkHours": "ساعات عمل الأم",
+
+  "educationalPrograms": "المناهج التعليمية",
+  "entertainmentPrograms": "المناهج الترفيهية",
+
+  "robotHours": "عدد ساعات عمل الروبوت",
 };

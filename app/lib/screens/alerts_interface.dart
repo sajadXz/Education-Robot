@@ -43,7 +43,7 @@ class _AlertsInterfaceState extends State<AlertsInterface> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFF5F9FC),
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
 
       appBar: AppBar(centerTitle: true, title: Text(AppText.get("alerts"))),
 
@@ -56,22 +56,28 @@ class _AlertsInterfaceState extends State<AlertsInterface> {
   Widget _alertsBody() {
     return ListView(
       padding: const EdgeInsets.all(18),
+
       children: [
         _alertCard(
           icon: Icons.school,
+
           title: AppText.get("newLessonAvailable"),
+
           description: AppText.get("newLessonDesc"),
         ),
-
         _alertCard(
           icon: Icons.battery_alert,
+
           title: AppText.get("robotBatteryLow"),
+
           description: AppText.get("robotBatteryDesc"),
         ),
 
         _alertCard(
           icon: Icons.bar_chart,
+
           title: AppText.get("weeklyProgressReport"),
+
           description: AppText.get("weeklyProgressDesc"),
         ),
       ],
@@ -82,8 +88,10 @@ class _AlertsInterfaceState extends State<AlertsInterface> {
     return Center(
       child: Padding(
         padding: const EdgeInsets.all(30),
+
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
+
           children: [
             Image.asset("assets/images/sleep_robot.png", height: 180),
 
@@ -91,6 +99,7 @@ class _AlertsInterfaceState extends State<AlertsInterface> {
 
             Text(
               AppText.get("allCaughtUp"),
+
               style: const TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
             ),
 
@@ -117,6 +126,8 @@ class _AlertsInterfaceState extends State<AlertsInterface> {
     required String description,
   }) {
     return Card(
+      color: Theme.of(context).cardColor,
+
       margin: const EdgeInsets.only(bottom: 15),
 
       child: ListTile(

@@ -4,6 +4,7 @@ import '../localization/app_text.dart';
 import 'learning_interface.dart';
 import 'rewards_interface.dart';
 import 'alerts_interface.dart';
+import 'settings_interface.dart';
 
 class ProfileInterface extends StatefulWidget {
   const ProfileInterface({super.key});
@@ -43,8 +44,10 @@ class _ProfileInterfaceState extends State<ProfileInterface> {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+
     return Scaffold(
-      backgroundColor: const Color(0xFFF4F8FB),
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
 
       body: SafeArea(
         child: SingleChildScrollView(
@@ -52,34 +55,51 @@ class _ProfileInterfaceState extends State<ProfileInterface> {
             children: [
               Padding(
                 padding: const EdgeInsets.all(20),
+
                 child: Row(
                   children: [
-                    const Icon(
+                    Icon(
                       Icons.smart_toy,
-                      color: Color(0xFF006A96),
+
+                      color: isDark ? Colors.white : const Color(0xFF006A96),
+
                       size: 35,
                     ),
 
                     const SizedBox(width: 10),
 
-                    const Text(
+                    Text(
                       "Robot Pal",
+
                       style: TextStyle(
                         fontSize: 28,
+
                         fontWeight: FontWeight.bold,
-                        color: Color(0xFF006A96),
+
+                        color: isDark ? Colors.white : const Color(0xFF006A96),
                       ),
                     ),
 
                     const Spacer(),
 
-                    CircleAvatar(
-                      radius: 28,
-                      backgroundColor: Colors.blue.shade50,
-                      child: const Icon(
+                    IconButton(
+                      icon: Icon(
                         Icons.settings,
-                        color: Color(0xFF006A96),
+
+                        color: isDark ? Colors.white : const Color(0xFF006A96),
+
+                        size: 30,
                       ),
+
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+
+                          MaterialPageRoute(
+                            builder: (context) => const SettingsInterface(),
+                          ),
+                        );
+                      },
                     ),
                   ],
                 ),
@@ -87,21 +107,30 @@ class _ProfileInterfaceState extends State<ProfileInterface> {
 
               Container(
                 margin: const EdgeInsets.symmetric(horizontal: 20),
+
                 padding: const EdgeInsets.all(20),
+
                 decoration: BoxDecoration(
-                  color: const Color(0xFFDDF2FA),
+                  color: isDark
+                      ? Theme.of(context).cardColor
+                      : const Color(0xFFDDF2FA),
+
                   borderRadius: BorderRadius.circular(35),
+
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.grey.withValues(alpha: .15),
+                      color: Colors.grey.withOpacity(.15),
+
                       blurRadius: 10,
                     ),
                   ],
                 ),
+
                 child: Column(
                   children: [
                     CircleAvatar(
                       radius: 85,
+
                       backgroundImage: const AssetImage(
                         "assets/images/profile_child.png",
                       ),
@@ -109,28 +138,35 @@ class _ProfileInterfaceState extends State<ProfileInterface> {
 
                     const SizedBox(height: 20),
 
-                    const Text(
+                    Text(
                       "Leo Explorador",
+
                       style: TextStyle(
                         fontSize: 34,
+
                         fontWeight: FontWeight.bold,
+
+                        color: Theme.of(context).textTheme.bodyLarge?.color,
                       ),
                     ),
-
                     const SizedBox(height: 15),
 
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
+
                       children: [
                         Container(
                           padding: const EdgeInsets.symmetric(
                             horizontal: 14,
                             vertical: 8,
                           ),
+
                           decoration: BoxDecoration(
-                            color: Colors.cyan.shade100,
+                            color: const Color.fromARGB(28, 178, 235, 242),
+
                             borderRadius: BorderRadius.circular(20),
                           ),
+
                           child: Text(AppText.get("spaceFan")),
                         ),
 
@@ -141,25 +177,34 @@ class _ProfileInterfaceState extends State<ProfileInterface> {
                             horizontal: 14,
                             vertical: 8,
                           ),
+
                           decoration: BoxDecoration(
-                            color: Colors.amber.shade100,
+                            color: const Color.fromARGB(48, 253, 249, 2),
+
                             borderRadius: BorderRadius.circular(20),
                           ),
+
                           child: Text(AppText.get("mathWhiz")),
                         ),
                       ],
                     ),
 
                     const SizedBox(height: 30),
+
                     Row(
                       children: [
                         Expanded(
                           child: Container(
                             padding: const EdgeInsets.all(20),
+
                             decoration: BoxDecoration(
-                              color: Colors.white70,
+                              color: isDark
+                                  ? Colors.grey.shade800
+                                  : Colors.white70,
+
                               borderRadius: BorderRadius.circular(25),
                             ),
+
                             child: Column(
                               children: [
                                 const Icon(
@@ -172,8 +217,10 @@ class _ProfileInterfaceState extends State<ProfileInterface> {
 
                                 const Text(
                                   "1240",
+
                                   style: TextStyle(
                                     fontSize: 30,
+
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
@@ -189,10 +236,15 @@ class _ProfileInterfaceState extends State<ProfileInterface> {
                         Expanded(
                           child: Container(
                             padding: const EdgeInsets.all(20),
+
                             decoration: BoxDecoration(
-                              color: Colors.white70,
+                              color: isDark
+                                  ? Colors.grey.shade800
+                                  : Colors.white70,
+
                               borderRadius: BorderRadius.circular(25),
                             ),
+
                             child: Column(
                               children: [
                                 const Icon(
@@ -205,8 +257,10 @@ class _ProfileInterfaceState extends State<ProfileInterface> {
 
                                 const Text(
                                   "14",
+
                                   style: TextStyle(
                                     fontSize: 30,
+
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
@@ -223,18 +277,27 @@ class _ProfileInterfaceState extends State<ProfileInterface> {
               ),
 
               const SizedBox(height: 25),
+
               Container(
                 margin: const EdgeInsets.symmetric(horizontal: 20),
+
                 padding: const EdgeInsets.all(25),
+
                 decoration: BoxDecoration(
-                  color: const Color(0xFFDDF2FA),
+                  color: isDark
+                      ? Theme.of(context).cardColor
+                      : const Color(0xFFDDF2FA),
+
                   borderRadius: BorderRadius.circular(35),
                 ),
+
                 child: Column(
                   children: [
                     const CircleAvatar(
                       radius: 60,
+
                       backgroundColor: Color(0xFF12A6E4),
+
                       child: Icon(
                         Icons.smart_toy,
                         color: Colors.white,
@@ -246,8 +309,10 @@ class _ProfileInterfaceState extends State<ProfileInterface> {
 
                     Text(
                       AppText.get("robotOnline"),
+
                       style: const TextStyle(
                         fontSize: 28,
+
                         fontWeight: FontWeight.bold,
                       ),
                     ),
@@ -256,7 +321,9 @@ class _ProfileInterfaceState extends State<ProfileInterface> {
 
                     LinearProgressIndicator(
                       value: 0.82,
+
                       minHeight: 14,
+
                       borderRadius: BorderRadius.circular(20),
                     ),
 
@@ -264,13 +331,14 @@ class _ProfileInterfaceState extends State<ProfileInterface> {
 
                     Align(
                       alignment: Alignment.centerRight,
+
                       child: Text("${AppText.get("batteryLevel")} 82%"),
                     ),
                   ],
                 ),
               ),
-
               const SizedBox(height: 40),
+
               const Icon(
                 Icons.admin_panel_settings,
                 size: 70,
@@ -281,8 +349,10 @@ class _ProfileInterfaceState extends State<ProfileInterface> {
 
               Text(
                 AppText.get("grownUpsOnly"),
+
                 style: const TextStyle(
                   fontSize: 34,
+
                   fontWeight: FontWeight.bold,
                 ),
               ),
@@ -291,8 +361,10 @@ class _ProfileInterfaceState extends State<ProfileInterface> {
 
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 35),
+
                 child: Text(
                   AppText.get("parentZoneDescription"),
+
                   textAlign: TextAlign.center,
                 ),
               ),
@@ -302,6 +374,7 @@ class _ProfileInterfaceState extends State<ProfileInterface> {
               SizedBox(
                 width: 300,
                 height: 60,
+
                 child: ElevatedButton.icon(
                   onPressed: () {
                     ScaffoldMessenger.of(context).showSnackBar(
@@ -310,7 +383,9 @@ class _ProfileInterfaceState extends State<ProfileInterface> {
                       ),
                     );
                   },
+
                   icon: const Icon(Icons.lock),
+
                   label: Text(AppText.get("enterParentZone")),
                 ),
               ),

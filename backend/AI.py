@@ -31,7 +31,7 @@ logging.basicConfig(
 logger = logging.getLogger("RobotBrain")
 
 # Constants
-DEFAULT_PORT = 8765
+DEFAULT_PORT = 8000
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 CHROMA_DB_PATH = os.path.join(SCRIPT_DIR, "robot_memory")
 CHROMA_COLLECTION_NAME = "robot_memories"
@@ -76,7 +76,8 @@ def get_memory_collection():
     global chroma_client, memory_collection
     if memory_collection is None:
         logger.info(f"Initializing ChromaDB client at {CHROMA_DB_PATH}...")
-        chroma_client = chromadb.PersistentClient(path=CHROMA_DB_PATH)
+        chroma_client = chromadb.HttpClient(host='chromadb', port=8000)
+        # chroma_client = chromadb.PersistentClient(path=CHROMA_DB_PATH)
         memory_collection = chroma_client.get_or_create_collection(name=CHROMA_COLLECTION_NAME)
     return memory_collection
 

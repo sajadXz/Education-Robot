@@ -40,8 +40,10 @@ class _RewardsInterfaceState extends State<RewardsInterface> {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+
     return Scaffold(
-      backgroundColor: const Color(0xFFF5F9FC),
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
 
       appBar: AppBar(centerTitle: true, title: Text(AppText.get("rewards"))),
 
@@ -54,10 +56,13 @@ class _RewardsInterfaceState extends State<RewardsInterface> {
           children: [
             Container(
               width: double.infinity,
+
               padding: const EdgeInsets.all(25),
 
               decoration: BoxDecoration(
-                color: const Color(0xFFBFEFFF),
+                color: isDark
+                    ? Theme.of(context).cardColor
+                    : const Color(0xFFBFEFFF),
 
                 borderRadius: BorderRadius.circular(25),
               ),
@@ -70,8 +75,10 @@ class _RewardsInterfaceState extends State<RewardsInterface> {
 
                   Text(
                     AppText.get("myStarCoins"),
+
                     style: const TextStyle(
                       fontSize: 24,
+
                       fontWeight: FontWeight.bold,
                     ),
                   ),
@@ -80,20 +87,22 @@ class _RewardsInterfaceState extends State<RewardsInterface> {
 
                   const Text(
                     "1240 ⭐",
+
                     style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
                   ),
                 ],
               ),
             ),
+
             const SizedBox(height: 25),
 
             Text(
               AppText.get("trophyRoom"),
+
               style: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
             ),
 
             const SizedBox(height: 15),
-
             Row(
               children: [
                 Expanded(
@@ -117,10 +126,12 @@ class _RewardsInterfaceState extends State<RewardsInterface> {
                 Expanded(child: _lockedCard()),
               ],
             ),
+
             const SizedBox(height: 30),
 
             Text(
               AppText.get("unlockRobotFun"),
+
               style: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
             ),
 
@@ -128,11 +139,13 @@ class _RewardsInterfaceState extends State<RewardsInterface> {
 
             _rewardItem(
               image: "assets/images/robot_dance.png",
+
               title: AppText.get("robotDance"),
             ),
 
             _rewardItem(
               image: "assets/images/new_paint.png",
+
               title: AppText.get("newPaint"),
             ),
 
@@ -147,8 +160,11 @@ class _RewardsInterfaceState extends State<RewardsInterface> {
 
   Widget _trophyCard(IconData icon, String title) {
     return Card(
+      color: Theme.of(context).cardColor,
+
       child: Padding(
         padding: const EdgeInsets.all(15),
+
         child: Column(
           children: [
             Icon(icon, size: 45, color: Colors.amber),
@@ -163,9 +179,12 @@ class _RewardsInterfaceState extends State<RewardsInterface> {
   }
 
   Widget _lockedCard() {
-    return const Card(
-      child: Padding(
+    return Card(
+      color: Theme.of(context).cardColor,
+
+      child: const Padding(
         padding: EdgeInsets.all(15),
+
         child: Column(
           children: [
             Icon(Icons.lock, size: 45, color: Colors.grey),
@@ -181,6 +200,8 @@ class _RewardsInterfaceState extends State<RewardsInterface> {
 
   Widget _rewardItem({required String image, required String title}) {
     return Card(
+      color: Theme.of(context).cardColor,
+
       child: ListTile(
         leading: Image.asset(image, width: 60, height: 60),
 

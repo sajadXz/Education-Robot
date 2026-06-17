@@ -131,4 +131,52 @@ const Map<String, String> en = {
 
   "weeklyProgressReport": "Weekly Progress Report",
   "weeklyProgressDesc": "See achievements and learning progress.",
+  "settings": "Settings",
+  "language": "Language",
+  "theme": "Theme",
+  "darkMode": "Dark Mode",
+  "lightMode": "Light Mode",
+  "editChildInfo": "Edit Child Information",
+  "editChildInfoDesc": "Update Child Information",
+
+  "editParentInfo": "Edit Parent Information",
+  "editParentInfoDesc": "Update Parent Information",
+
+  "robotSettings": "Robot Settings",
+  "robotSettingsDesc": "Voice, Motion, Brightness and Connection",
+
+  "logout": "Logout",
+  "logoutDesc": "Sign out from current account",
+
+  "switchAccount": "Switch Account",
+  "switchAccountDesc": "Add or switch account",
+
+  "robotEvaluation": "Robot Evaluation",
+  "robotEvaluationDesc": "Rate robot performance",
+
+  "help": "Help",
+  "helpDesc": "FAQ and support",
+
+  "robotGuide": "About The Robot",
+
+  "robotGuideDesc": "Learn how the robot works",
+
+  "robotDescription": "Robot Pal is designed to help children learn and grow.",
+
+  "version": "Version",
+  "favoriteSubject": "Favorite Subject",
+  "learningLevel": "Learning Level",
+
+  "saveChanges": "Save Changes",
+  "changePhoto": "Change Photo",
+
+  "additionalNotes": "Additional Notes",
+  "wakeTime": "Wake Up Time",
+
+  "schoolStage": "School Stage",
+
+  "educationalPrograms": "Educational Programs",
+  "entertainmentPrograms": "Entertainment Programs",
+
+  "robotHours": "Robot Working Hours",
 };
