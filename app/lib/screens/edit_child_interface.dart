@@ -249,7 +249,7 @@ class _EditChildInterfaceState extends State<EditChildInterface> {
       padding: const EdgeInsets.only(bottom: 15),
 
       child: DropdownButtonFormField<String>(
-        value: gender,
+        initialValue: gender,
 
         decoration: InputDecoration(
           prefixIcon: const Icon(Icons.people),

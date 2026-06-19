@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'child_information_interface.dart';
 import '../localization/app_text.dart';
+import '../auth_service.dart';
 
 class ParentLoginInterface extends StatelessWidget {
   const ParentLoginInterface({super.key});
@@ -22,7 +23,7 @@ class ParentLoginInterface extends StatelessWidget {
                 height: 250,
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
-                  color: Colors.cyan.withOpacity(0.2),
+                  color: Colors.cyan.withValues(alpha: 0.2),
                 ),
               ),
             ),
@@ -35,7 +36,7 @@ class ParentLoginInterface extends StatelessWidget {
                 height: 280,
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
-                  color: Colors.cyan.withOpacity(0.2),
+                  color: Colors.cyan.withValues(alpha: 0.2),
                 ),
               ),
             ),

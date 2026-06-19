@@ -1,16 +1,16 @@
 import 'package:mysql1/mysql1.dart';
 
 /// Service to interact directly with a MySQL Database.
-/// 
-/// Note: While useful for prototyping, direct connection to a database 
-/// from a mobile app is not recommended for production due to security risks.
+/// DEPRECATED: Use ApiService instead for REST API calls.
+/// Kept for backward compatibility only.
 class MySqlService {
-  // Connection Configuration
-  static const String _host = 'your-database-host-or-ip'; // e.g., '10.0.2.2' for Local Android Emulator
+  // Connection Configuration - Using REST API instead
+  // Direct database connection from mobile app is NOT recommended for production
+  static const String _host = '161.97.103.48';
   static const int _port = 3306;
-  static const String _user = 'your_username';
-  static const String _password = 'your_password';
-  static const String _dbName = 'your_database_name';
+  static const String _user = 'root';
+  static const String _password = 'my_strong_root_password';
+  static const String _dbName = 'robot_app_db';
 
   static final ConnectionSettings _settings = ConnectionSettings(
     host: _host,
@@ -21,11 +21,13 @@ class MySqlService {
   );
 
   /// Fetch list of items/users from the database
+  /// DEPRECATED: Use ApiService.fetchItems() instead
+  @Deprecated('Use ApiService.fetchItems() instead')
   static Future<List<Map<String, dynamic>>> fetchItems() async {
     final conn = await MySqlConnection.connect(_settings);
     try {
       final Results results = await conn.query('SELECT id, title, description FROM items');
-      
+
       final List<Map<String, dynamic>> items = [];
       for (var row in results) {
         items.add({
@@ -43,6 +45,8 @@ class MySqlService {
   }
 
   /// Insert a new item/user into the database
+  /// DEPRECATED: Use ApiService.insertItem() instead
+  @Deprecated('Use ApiService.insertItem() instead')
   static Future<void> insertItem(String title, String description) async {
     final conn = await MySqlConnection.connect(_settings);
     try {

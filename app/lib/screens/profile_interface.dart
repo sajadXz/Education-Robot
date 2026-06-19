@@ -119,7 +119,7 @@ class _ProfileInterfaceState extends State<ProfileInterface> {
 
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.grey.withOpacity(.15),
+                      color: Colors.grey.withValues(alpha: .15),
 
                       blurRadius: 10,
                     ),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'parent_information_interface.dart';
 import '../localization/app_text.dart';
+import '../api_service.dart';
 
 class ChildInformationInterface extends StatefulWidget {
   const ChildInformationInterface({super.key});
@@ -87,7 +88,7 @@ class _ChildInformationInterfaceState extends State<ChildInformationInterface> {
             _label(AppText.get("gender")),
 
             DropdownButtonFormField<String>(
-              value: gender,
+              initialValue: gender,
               decoration: _inputDecoration(),
               items: [
                 DropdownMenuItem(
@@ -198,14 +199,39 @@ class _ChildInformationInterfaceState extends State<ChildInformationInterface> {
               children: [
                 Expanded(
                   child: ElevatedButton(
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) =>
-                              const ParentInformationInterface(),
-                        ),
-                      );
+                    onPressed: () async {
+                      // Submit child information to server
+                      try {
+                        await ApiService.submitChildInfo(
+                          name: nameController.text,
+                          gender: gender,
+                          age: int.tryParse(ageController.text) ?? 0,
+                          birthDate: birthDateController.text,
+                          schoolGrade: gradeController.text,
+                          wakeTime: wakeController.text,
+                          sleepTime: sleepController.text,
+                          likes: likesController.text,
+                          dislikes: dislikesController.text,
+                          fears: fearsController.text,
+                          notes: notesController.text,
+                        );
+
+                        if (mounted) {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) =>
+                                  const ParentInformationInterface(),
+                            ),
+                          );
+                        }
+                      } catch (e) {
+                        if (mounted) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(content: Text('Error: $e')),
+                          );
+                        }
+                      }
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: const Color(0xFF264B96),

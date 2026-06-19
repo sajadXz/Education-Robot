@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'robot_information_interface.dart';
 import '../localization/app_text.dart';
+import '../api_service.dart';
 
 class ParentInformationInterface extends StatefulWidget {
   const ParentInformationInterface({super.key});
@@ -133,14 +134,33 @@ class _ParentInformationInterfaceState
               children: [
                 Expanded(
                   child: ElevatedButton(
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) =>
-                              const RobotInformationInterface(),
-                        ),
-                      );
+                    onPressed: () async {
+                      // Submit parent information to server
+                      try {
+                        // Submit father info as primary parent
+                        await ApiService.submitParentInfo(
+                          name: fatherNameController.text,
+                          phone: fatherPhoneController.text,
+                          relationship: 'Father',
+                          jobTitle: '',
+                        );
+
+                        if (mounted) {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) =>
+                                  const RobotInformationInterface(),
+                            ),
+                          );
+                        }
+                      } catch (e) {
+                        if (mounted) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(content: Text('Error: $e')),
+                          );
+                        }
+                      }
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: const Color(0xFF264B96),
